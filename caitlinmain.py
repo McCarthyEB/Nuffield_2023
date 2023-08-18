@@ -69,14 +69,14 @@ if __name__ == '__main__':
     #matrix = neighborList.get_connectivity_matrix()
 
     i = neighbor_list('i', atoms,
-                      {('O', 'Zn'): 2.1, ('Zn', 'Zn'): 3.4})
+                      {('O', 'Zn'): 2.0, ('Zn', 'Zn'): 3.4})
     coord = np.bincount(i)
     listcoord = np.array(coord).tolist()
     print(coord)
     print(listcoord)
     for iatom in range(0, len(atoms)):
 
-        # print("%s %d has a coordination number of %d" % (atoms.symbols[iatom], iatom, listcoord[iatom]))
+         print("%s %d has a coordination number of %d" % (atoms.symbols[iatom], iatom, listcoord[iatom]))
          if "Zn" in atoms.symbols[iatom]:
              if listcoord[iatom] <10:
                  print("%s %d has a coordination number of %d" % (atoms.symbols[iatom], iatom, listcoord[iatom]))
