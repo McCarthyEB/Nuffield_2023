@@ -21,6 +21,7 @@ if __name__ == '__main__':
     from ase.io import read, write, Trajectory
     from ase.visualize import view
     import math
+    import matplotlib.pyplot as plt
 
     def atom_analysis(file_name,atoms):
         print(f"Analyzing atoms from {file_name}:")
@@ -40,20 +41,37 @@ if __name__ == '__main__':
                     if "O" in atoms.symbols[sec_atom]:
                         dist = atoms.get_distance(iatom,sec_atom,mic=True)
                         if dist < 2.0:
-                            print("%d %d are %10.6f apart" % ( iatom, sec_atom, dist))
+                            print("%d %d are %10.6f apart" % ( iatom, sec_atom, dist)) and \
+                            distances.append(dist)
 
                             for thi_atom in range(0, len(atoms)):
                                 if "O" in atoms.symbols[thi_atom] and dist < 2.0:
                                     angle = atoms.get_angle(sec_atom,iatom,thi_atom,mic=True)
                                     angle_degrees = math.degrees(angle)
                                     print("%s %s %s are at an angle of %10.6f degrees" % (atoms.symbols[iatom],atoms.symbols[sec_atom],atoms.symbols[thi_atom],angle))
+                                    angles.append(angle)
 #   view(atoms)
     geomfile = ["1_geometry_100_def1.in", "ZnO_110_6l_2b2_CO2.in", "2_geometry_100_def1.in", "3_geometry_100_def1.in", \
                 "4_geometry_100_def1.in", "5_geometry_100_def1.in", "6_geometry_100_def1.in"]
+    distances = []
+    angles = []
 
     for file in geomfile:
         atoms = read(file)
         atom_analysis(file,atoms)
 
+plt.subplot(2, 1, 1)
+plt.hist(angles, bins=10)
+plt.xlabel("Angle")
+plt.ylabel("Frequency")
+plt.title("Angles between carbon and two oxygen atoms")
+plt.show()
+
+plt.subplot(2, 1, 2)
+plt.hist(distances, bins=10)
+plt.xlabel("Distance")
+plt.ylabel("Frequency")
+plt.title("Distance between oxygen and carbon atoms")
+plt.show()
 
 
